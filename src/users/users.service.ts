@@ -11,19 +11,17 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
+  //user servive to create user
   async createUser(createUserInput: CreateUserInput): Promise<User> {
     const newUser = await this.userRepository.create(createUserInput);
     return this.userRepository.save(newUser);
   }
-
+  //user service to find all users
   async findAllUsers(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async findOne(id: string): Promise<User> {
-    return this.userRepository.findOneOrFail(id);
-  }
-
+  //user service to update a user by id
   async updateUser(updateUserInput: UpdateUserInput): Promise<User> {
     const userToUpdate = await this.userRepository.findOneOrFail(
       updateUserInput.id,
@@ -31,6 +29,7 @@ export class UsersService {
     return this.userRepository.save({ ...userToUpdate, ...updateUserInput });
   }
 
+  //user service to delete  a user by id
   async deleteUser(id: string): Promise<User> {
     const userToDelete = await this.userRepository.findOneOrFail(id);
     return this.userRepository.remove(userToDelete);
