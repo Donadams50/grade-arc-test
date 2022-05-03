@@ -10,7 +10,6 @@ import { UsePipes, ValidationPipe } from '@nestjs/common';
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
-  //    CREATE USER
   @Mutation(() => User)
   createUser(
     @Args('createUserInput') createUserInput: CreateUserInput,
@@ -18,13 +17,11 @@ export class UsersResolver {
     return this.usersService.create(createUserInput);
   }
 
-  //    READ USERS
   @Query(() => [User])
   users(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
-  //    UPDATE USER
   @Mutation(() => User)
   @UsePipes(new ValidationPipe({ skipMissingProperties: true }))
   updateUser(
@@ -33,7 +30,6 @@ export class UsersResolver {
     return this.usersService.update(updateUserInput);
   }
 
-  //   DELETE USER
   @Mutation(() => User)
   deleteUser(@Args('id', { type: () => ID }) id: string): Promise<User> {
     return this.usersService.delete(id);

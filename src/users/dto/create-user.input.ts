@@ -6,7 +6,7 @@ export class CreateUserInput {
   @IsAlpha()
   @Length(3, 50)
   @Field()
-  firsName: string;
+  firstName: string;
 
   @IsAlpha()
   @Length(3, 50)
