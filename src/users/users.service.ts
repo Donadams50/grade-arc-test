@@ -11,31 +11,27 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  //    CREATE USER
-  async create(createUserInput: CreateUserInput): Promise<User> {
+  async createUser(createUserInput: CreateUserInput): Promise<User> {
     const newUser = await this.userRepository.create(createUserInput);
     return this.userRepository.save(newUser);
   }
 
-  //    READ USER
-  async findAll(): Promise<User[]> {
+  async findAllUsers(): Promise<User[]> {
     return this.userRepository.find();
   }
-  //   READ USER BY ID
+
   async findOne(id: string): Promise<User> {
     return this.userRepository.findOneOrFail(id);
   }
 
-  //    UPDATE USER
-  async update(updateUserInput: UpdateUserInput): Promise<User> {
+  async updateUser(updateUserInput: UpdateUserInput): Promise<User> {
     const userToUpdate = await this.userRepository.findOneOrFail(
       updateUserInput.id,
     );
     return this.userRepository.save({ ...userToUpdate, ...updateUserInput });
   }
 
-  //   DELETE USER
-  async delete(id: string): Promise<User> {
+  async deleteUser(id: string): Promise<User> {
     const userToDelete = await this.userRepository.findOneOrFail(id);
     return this.userRepository.remove(userToDelete);
   }

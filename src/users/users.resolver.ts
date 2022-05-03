@@ -14,12 +14,12 @@ export class UsersResolver {
   createUser(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<User> {
-    return this.usersService.create(createUserInput);
+    return this.usersService.createUser(createUserInput);
   }
 
   @Query(() => [User])
   users(): Promise<User[]> {
-    return this.usersService.findAll();
+    return this.usersService.findAllUsers();
   }
 
   @Mutation(() => User)
@@ -27,11 +27,11 @@ export class UsersResolver {
   updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    return this.usersService.update(updateUserInput);
+    return this.usersService.updateUser(updateUserInput);
   }
 
   @Mutation(() => User)
   deleteUser(@Args('id', { type: () => ID }) id: string): Promise<User> {
-    return this.usersService.delete(id);
+    return this.usersService.deleteUser(id);
   }
 }
