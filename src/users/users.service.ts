@@ -34,4 +34,9 @@ export class UsersService {
     const userToDelete = await this.userRepository.findOneOrFail(id);
     return this.userRepository.remove(userToDelete);
   }
+
+  //   get user by ID
+  async findOneUser(id: string): Promise<User> {
+    return this.userRepository.findOneOrFail(id);
+  }
 }

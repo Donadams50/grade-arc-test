@@ -1,8 +1,10 @@
 import { Field, ID, GraphQLISODateTime, ObjectType } from '@nestjs/graphql';
+import { Ticket } from '../../tickets/entities/ticket.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  OneToOne,
   Generated,
   CreateDateColumn,
   UpdateDateColumn,
@@ -39,6 +41,10 @@ export class User {
   @Column()
   @Field()
   email: string;
+
+  @OneToOne(() => Ticket, (ticket) => ticket.user)
+  @Field(() => Ticket, { nullable: true })
+  ticket?: string;
 
   @CreateDateColumn()
   @Field(() => GraphQLISODateTime)
