@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { CreateTicketInput } from './dto/create-ticket.input';
 import { UpdateTicketInput } from './dto/update-ticket.input';
 import { Ticket } from './entities/ticket.entity';
-import { User } from 'src/users/entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class TicketsService {
@@ -17,7 +17,7 @@ export class TicketsService {
 
   //    CREATE TICKET
   async create(createTicketInput: CreateTicketInput): Promise<Ticket> {
-    const newTicket = await this.ticketRepository.create(createTicketInput);
+    const newTicket = this.ticketRepository.create(createTicketInput);
     return this.ticketRepository.save(newTicket);
   }
   // get all tickets
@@ -49,8 +49,18 @@ export class TicketsService {
     return this.ticketRepository.remove(ticketToUpdate);
   }
 
-  // get all ticket for a user;
-  async getUserTicket(userId: string): Promise<User> {
+  //find all ticket that is for a plane
+  async findPlaneTickets(planeId: string): Promise<Ticket[]> {
+    return this.ticketRepository.find({
+      where: {
+        planeId,
+      },
+      relations: ['plane'],
+    });
+  }
+
+  // this is to get the details of the user that owns a ticket
+  async findTicketOwner(userId: string): Promise<User> {
     return this.userService.findOneUser(userId);
   }
 }

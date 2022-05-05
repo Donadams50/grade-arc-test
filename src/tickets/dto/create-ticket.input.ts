@@ -10,4 +10,7 @@ export class CreateTicketInput {
 
   @Field()
   userId: string;
+
+  @Field()
+  planeId: string;
 }

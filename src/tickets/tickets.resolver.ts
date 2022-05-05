@@ -1,22 +1,41 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+  ID,
+} from '@nestjs/graphql';
 import { TicketsService } from './tickets.service';
+import { PlanesService } from '../planes/planes.service';
 import { Ticket } from './entities/ticket.entity';
 import { CreateTicketInput } from './dto/create-ticket.input';
 import { UpdateTicketInput } from './dto/update-ticket.input';
+import { User } from '../users/entities/user.entity';
 
 @Resolver(() => Ticket)
 export class TicketsResolver {
-  constructor(private readonly ticketsService: TicketsService) {}
+  constructor(
+    private readonly ticketsService: TicketsService,
+    private readonly planesService: PlanesService,
+  ) {}
 
+  // Book new ticket.  Also it checks firstly if the plane you want to book is in transit before creating a ticket. If in transit, then you cannot book at the moment
   @Mutation(() => Ticket)
-  createNewTicket(
+  async createTicket(
     @Args('createTicketInput') createTicketInput: CreateTicketInput,
   ) {
+    const plane = await this.planesService.findOnePlane(
+      createTicketInput.planeId,
+    );
+    if (plane.isPlaneInTransit) throw new Error('Plane in transit. Book later');
     return this.ticketsService.create(createTicketInput);
   }
 
   @Query(() => [Ticket], { name: 'tickets' })
-  findAllTickets() {
+  tickets() {
     return this.ticketsService.findAll();
   }
 
@@ -33,7 +52,12 @@ export class TicketsResolver {
   }
 
   @Mutation(() => Ticket)
-  deleteTicket(@Args('id', { type: () => Int }) id: string) {
+  deleteTicket(@Args('id', { type: () => ID }) id: string) {
     return this.ticketsService.remove(id);
+  }
+
+  @ResolveField(() => User)
+  ticketOwner(@Parent() ticket: Ticket) {
+    return this.ticketsService.findTicketOwner(ticket.userId);
   }
 }

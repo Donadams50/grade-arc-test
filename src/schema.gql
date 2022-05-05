@@ -2,14 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Plane {
+  id: ID!
+  planeName: String!
+  departureTime: Date!
+  arrivalTime: Date!
+  departureAirport: String!
+  arrivalAirport: String!
+  isPlaneInTransit: Boolean!
+  tickets: [Ticket!]
+}
+
+"""Date custom scalar type"""
+scalar Date
+
 type Ticket {
   id: ID!
   ticketName: String!
   userId: String!
   user: User
   isTicketBooked: Boolean!
+  planeId: String!
+  plane: Plane
   createdAt: DateTime!
   updatedAt: DateTime!
+  ticketOwner: User!
 }
 
 """
@@ -34,15 +51,21 @@ type Query {
   users: [User!]!
   tickets: [Ticket!]!
   ticket(id: Int!): Ticket!
+  planes: [Plane!]!
+  plane(id: ID!): Plane!
+  notInTransitPlanes: [Plane!]!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser(id: ID!): User!
-  createNewTicket(createTicketInput: CreateTicketInput!): Ticket!
+  createTicket(createTicketInput: CreateTicketInput!): Ticket!
   updateTicket(updateTicketInput: UpdateTicketInput!): Ticket!
-  deleteTicket(id: Int!): Ticket!
+  deleteTicket(id: ID!): Ticket!
+  createPlane(createPlaneInput: CreatePlaneInput!): Plane!
+  updatePlane(updatePlaneInput: UpdatePlaneInput!): Plane!
+  deletePlane(id: ID!): Plane!
 }
 
 input CreateUserInput {
@@ -67,10 +90,30 @@ input UpdateUserInput {
 input CreateTicketInput {
   ticketName: String!
   userId: String!
+  planeId: String!
 }
 
 input UpdateTicketInput {
   ticketName: String
   userId: String
+  planeId: String
   id: ID!
+}
+
+input CreatePlaneInput {
+  planeName: String!
+  departureTime: String!
+  arrivalTime: String!
+  departureAirport: String!
+  arrivalAirport: String!
+}
+
+input UpdatePlaneInput {
+  planeName: String
+  departureTime: String
+  arrivalTime: String
+  departureAirport: String
+  arrivalAirport: String
+  id: ID!
+  isPlaneInTransit: Boolean!
 }

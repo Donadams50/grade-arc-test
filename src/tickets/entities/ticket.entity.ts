@@ -7,9 +7,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  ManyToOne,
   BeforeInsert,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Plane } from '../../planes/entities/plane.entity';
 
 @Entity()
 @ObjectType()
@@ -39,6 +41,16 @@ export class Ticket {
   updateIsBooked() {
     this.isTicketBooked = true;
   }
+
+  @Column()
+  @Field()
+  planeId: string;
+
+  @ManyToOne(() => Plane, (plane) => plane.tickets, {
+    onDelete: 'CASCADE',
+  })
+  @Field(() => Plane, { nullable: true })
+  plane?: Plane;
 
   @CreateDateColumn()
   @Field(() => GraphQLISODateTime)
