@@ -13,4 +13,13 @@ export class CreateTicketInput {
 
   @Field()
   planeId: string;
+
+  @Field()
+  userDepartureTime: string;
+
+  @Field()
+  userDepartureAirport: string;
+
+  @Field()
+  userArrivalAirport: string;
 }

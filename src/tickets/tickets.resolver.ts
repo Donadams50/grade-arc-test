@@ -31,12 +31,31 @@ export class TicketsResolver {
       createTicketInput.planeId,
     );
     if (plane.isPlaneInTransit) throw new Error('Plane in transit. Book later');
+    if (plane.departureAirport != createTicketInput.userDepartureAirport)
+      throw new Error(
+        'User departure airport is not the same as the chosen plane departure airport. Please choose another plane ',
+      );
+    if (plane.arrivalAirport != createTicketInput.userArrivalAirport)
+      throw new Error(
+        'User arrival airport is not the same as the chosen plane arrival  airport. Please choose another plane ',
+      );
+    const isUserTimeInRangeWitheSelectedPlane =
+      new Date(createTicketInput.userDepartureTime) >=
+        new Date(plane.departureTime) &&
+      new Date(createTicketInput.userDepartureTime) <=
+        new Date(plane.arrivalTime);
+    if (!isUserTimeInRangeWitheSelectedPlane)
+      throw new Error(
+        'User take off time is not in range of when the selected plane will move. Please choose another plane ',
+      );
     return this.ticketsService.create(createTicketInput);
   }
 
   @Query(() => [Ticket], { name: 'tickets' })
-  tickets() {
-    return this.ticketsService.findAll();
+  async tickets() {
+    const x = await this.ticketsService.findAll();
+    console.log(x);
+    return x;
   }
 
   @Query(() => Ticket, { name: 'ticket' })

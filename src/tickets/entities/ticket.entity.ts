@@ -52,6 +52,18 @@ export class Ticket {
   @Field(() => Plane, { nullable: true })
   plane?: Plane;
 
+  @Column()
+  @Field()
+  userDepartureAirport: string;
+
+  @Column()
+  @Field()
+  userArrivalAirport: string;
+
+  @Column()
+  @Field()
+  userDepartureTime: Date;
+
   @CreateDateColumn()
   @Field(() => GraphQLISODateTime)
   createdAt: Date;

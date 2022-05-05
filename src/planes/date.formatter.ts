@@ -2,8 +2,8 @@ import { Scalar, CustomScalar } from '@nestjs/graphql';
 import { Kind, ValueNode } from 'graphql';
 import * as dayjs from 'dayjs';
 
-const localizedFormat = require('dayjs/plugin/localizedFormat')
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const localizedFormat = require('dayjs/plugin/localizedFormat');
 
 dayjs.extend(localizedFormat);
 dayjs().format('L LT');

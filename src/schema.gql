@@ -24,6 +24,9 @@ type Ticket {
   isTicketBooked: Boolean!
   planeId: String!
   plane: Plane
+  userDepartureAirport: String!
+  userArrivalAirport: String!
+  userDepartureTime: Date!
   createdAt: DateTime!
   updatedAt: DateTime!
   ticketOwner: User!
@@ -91,12 +94,18 @@ input CreateTicketInput {
   ticketName: String!
   userId: String!
   planeId: String!
+  userDepartureTime: String!
+  userDepartureAirport: String!
+  userArrivalAirport: String!
 }
 
 input UpdateTicketInput {
   ticketName: String
   userId: String
   planeId: String
+  userDepartureTime: String
+  userDepartureAirport: String
+  userArrivalAirport: String
   id: ID!
 }
 
