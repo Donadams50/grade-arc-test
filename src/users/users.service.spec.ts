@@ -1,6 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { User } from './entities/user.entity';
-import { replicaUser, userRepositoryMock, newUserModel } from './utils';
+import {
+  replicaUser,
+  userRepositoryMock,
+  newUserModel,
+} from './users.mockdata';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UsersService } from './users.service';
 

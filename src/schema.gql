@@ -52,10 +52,10 @@ type User {
 
 type Query {
   users: [User!]!
+  plane(id: ID!): Plane!
   tickets: [Ticket!]!
   ticket(id: Int!): Ticket!
   planes: [Plane!]!
-  plane(id: ID!): Plane!
   findnotInTransitPlanes: [Plane!]!
 }
 

@@ -53,9 +53,8 @@ export class TicketsResolver {
 
   @Query(() => [Ticket], { name: 'tickets' })
   async tickets() {
-    const x = await this.ticketsService.findAll();
-    console.log(x);
-    return x;
+    const alltickets = await this.ticketsService.findAll();
+    return alltickets;
   }
 
   @Query(() => Ticket, { name: 'ticket' })

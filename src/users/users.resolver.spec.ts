@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
-import { replicaUser, newUserModel, userServiceReplica } from './utils';
+import {
+  replicaUser,
+  newUserModel,
+  userServiceReplica,
+} from './users.mockdata';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;

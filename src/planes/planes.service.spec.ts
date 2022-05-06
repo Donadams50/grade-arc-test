@@ -14,8 +14,8 @@ import {
 describe('PlanesService', () => {
   let service: PlanesService;
   const planeRepositoryMock: MockType<Repository<Plane>> = {
-    create: jest.fn((dto) => dto),
-    save: jest.fn((dto) => dto),
+    create: jest.fn((fakedata) => fakedata),
+    save: jest.fn((fakedata) => fakedata),
     find: jest.fn(),
     findOne: jest.fn(),
     findOneOrFail: jest.fn(),
