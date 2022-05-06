@@ -34,7 +34,7 @@ describe('UsersService', () => {
   describe('find all user', () => {
     it('should return all available users', async () => {
       userRepositoryMock.find.mockReturnValue([replicaUser]);
-      const allusers = await service.findAllUsers();
+      const allusers = await service.findAll();
       expect(allusers).toEqual([replicaUser]);
       expect(userRepositoryMock.find).toHaveBeenCalled();
     });
@@ -56,6 +56,16 @@ describe('UsersService', () => {
     it('should delete a user by id', async () => {
       userRepositoryMock.delete.mockReturnValue(replicaUser);
       await service.deleteUser(replicaUser.id);
+      expect(userRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
+        replicaUser.id,
+      );
+    });
+  });
+
+  describe('get a single user by id', () => {
+    it('should get a user by id', async () => {
+      userRepositoryMock.findOne.mockReturnValue(replicaUser);
+      await service.findOneUser(replicaUser.id);
       expect(userRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
         replicaUser.id,
       );

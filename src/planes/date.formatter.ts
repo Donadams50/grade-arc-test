@@ -9,7 +9,7 @@ dayjs.extend(localizedFormat);
 dayjs().format('L LT');
 
 @Scalar('Date', () => Date)
-export class DateScalar implements CustomScalar<string, Date> {
+export class DateFormater implements CustomScalar<string, Date> {
   description = 'Date custom scalar type';
 
   parseValue(value: string): any {

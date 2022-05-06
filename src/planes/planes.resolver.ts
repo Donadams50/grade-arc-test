@@ -43,11 +43,11 @@ export class PlanesResolver {
 
   // get all planes that are not in transit or available planes
   @Query(() => [Plane])
-  notInTransitPlanes() {
+  findnotInTransitPlanes() {
     return this.planesService.getPlanesNotInTransit();
   }
 
-  //update plane by id which also involves changing the transit status/stste of the plane. Once the plane has arrived, this can be called to change isPlaneInTransit to false
+  //update plane by id which you can  also use to change the transit status/state of the plane. Once the plane has arrived, this can be called to change isPlaneInTransit to false
   @Mutation(() => Plane)
   updatePlane(@Args('updatePlaneInput') updatePlaneInput: UpdatePlaneInput) {
     return this.planesService.updatePlane(updatePlaneInput);

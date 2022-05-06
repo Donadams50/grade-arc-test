@@ -17,7 +17,7 @@ export class UsersService {
     return this.userRepository.save(newUser);
   }
   //user service to find all users
-  async findAllUsers(): Promise<User[]> {
+  async findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
@@ -35,7 +35,7 @@ export class UsersService {
     return this.userRepository.remove(userToDelete);
   }
 
-  //   get user by ID
+  //   get user by id
   async findOneUser(id: string): Promise<User> {
     return this.userRepository.findOneOrFail(id);
   }

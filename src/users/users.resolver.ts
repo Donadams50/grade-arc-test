@@ -21,7 +21,7 @@ export class UsersResolver {
   //query to get all users: it calls the get users service
   @Query(() => [User])
   users(): Promise<User[]> {
-    return this.usersService.findAllUsers();
+    return this.usersService.findAll();
   }
 
   // a mutation to update a user by id : it calls the update user service
@@ -37,5 +37,11 @@ export class UsersResolver {
   @Mutation(() => User)
   deleteUser(@Args('id', { type: () => ID }) id: string): Promise<User> {
     return this.usersService.deleteUser(id);
+  }
+
+  //get user by id
+  @Query(() => User, { name: 'plane' })
+  findOne(@Args('id', { type: () => ID }) id: string) {
+    return this.usersService.findOneUser(id);
   }
 }

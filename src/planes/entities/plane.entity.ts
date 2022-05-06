@@ -43,7 +43,7 @@ export class Plane {
   isPlaneInTransit: boolean;
 
   @BeforeInsert()
-  updateIsBooked() {
+  updateIsPlaneInTransit() {
     this.isPlaneInTransit = false;
   }
 

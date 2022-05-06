@@ -56,7 +56,7 @@ type Query {
   ticket(id: Int!): Ticket!
   planes: [Plane!]!
   plane(id: ID!): Plane!
-  notInTransitPlanes: [Plane!]!
+  findnotInTransitPlanes: [Plane!]!
 }
 
 type Mutation {

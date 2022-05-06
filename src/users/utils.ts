@@ -28,6 +28,14 @@ export const userRepositoryMock: MockType<Repository<User>> = {
   remove: jest.fn(),
 };
 
+export const userServiceReplica = {
+  create: jest.fn((dto) => dto),
+  findAll: jest.fn((): User[] => [replicaUser]),
+  findOne: jest.fn((): User => replicaUser),
+  update: jest.fn((): User => replicaUser),
+  delete: jest.fn((): User => replicaUser),
+};
+
 export const newUserModel = {
   firstName: 'Adam',
   lastName: 'Alaka',
