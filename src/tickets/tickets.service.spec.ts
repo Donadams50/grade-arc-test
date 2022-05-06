@@ -8,9 +8,9 @@ import { Ticket } from './entities/ticket.entity';
 import {
   userServiceReplica,
   planeServiceReplica,
-  newTicketExample,
+  newTicketExampleService,
   replicaTicket,
-} from './tickets.mockdata';
+} from './tickets.mockdata.test';
 
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<unknown>;
@@ -53,17 +53,19 @@ describe('TicketsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  describe('create', () => {
+  describe('create new ticket', () => {
     it('should create a new ticket', async () => {
-      ticketRepositoryMock.create.mockReturnValue(newTicketExample);
-      const newTicket = await service.create(newTicketExample);
-      expect(newTicket).toMatchObject(newTicketExample);
-      expect(ticketRepositoryMock.save).toHaveBeenCalledWith(newTicketExample);
+      ticketRepositoryMock.create.mockReturnValue(newTicketExampleService);
+      const newTicket = await service.create(newTicketExampleService);
+      expect(newTicket).toMatchObject(newTicketExampleService);
+      expect(ticketRepositoryMock.save).toHaveBeenCalledWith(
+        newTicketExampleService,
+      );
     });
   });
 
-  describe('findAll', () => {
-    it('should return all tickets', async () => {
+  describe('find all tickets', () => {
+    it('should fetch all tickets', async () => {
       ticketRepositoryMock.find.mockReturnValue([replicaTicket]);
       const tickets = await service.findAll();
       expect(tickets).toEqual([replicaTicket]);
@@ -71,8 +73,8 @@ describe('TicketsService', () => {
     });
   });
 
-  describe('findOne', () => {
-    it('should return a user with a particular id', async () => {
+  describe('find one ticket', () => {
+    it('should get a ticket by id', async () => {
       ticketRepositoryMock.findOne.mockReturnValue(replicaTicket);
       await service.findOne(replicaTicket.id);
       expect(ticketRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
@@ -81,8 +83,8 @@ describe('TicketsService', () => {
     });
   });
 
-  describe('update', () => {
-    it('should update a user with a particular id', async () => {
+  describe('update ticket by id', () => {
+    it('should update a ticket by id', async () => {
       ticketRepositoryMock.update.mockReturnValue(replicaTicket);
       const updatedTicket = await service.update(replicaTicket);
       expect(updatedTicket).toMatchObject(replicaTicket);
@@ -93,8 +95,8 @@ describe('TicketsService', () => {
     });
   });
 
-  describe('delete', () => {
-    it('should delete a user', async () => {
+  describe('delete ticket by id', () => {
+    it('should delete a ticket by id', async () => {
       ticketRepositoryMock.delete.mockReturnValue(replicaTicket);
       await service.remove(replicaTicket.id);
       expect(ticketRepositoryMock.findOneOrFail).toHaveBeenCalledWith(

@@ -4,7 +4,7 @@ import { PlanesService } from './planes.service';
 import { PlanesResolver } from './planes.resolver';
 import { Plane } from './entities/plane.entity';
 import { TicketsModule } from '../tickets/tickets.module';
-import { DateFormater } from './date.formatter';
+import { DateFormater } from '../date.formatter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Plane]), forwardRef(() => TicketsModule)],

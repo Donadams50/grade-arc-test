@@ -29,7 +29,7 @@ describe('UsersService', () => {
   describe('create user', () => {
     it('should create  new user', async () => {
       userRepositoryMock.create.mockReturnValue(newUserModel);
-      const newuser = await service.createUser(newUserModel);
+      const newuser = await service.create(newUserModel);
       expect(newuser).toMatchObject(newUserModel);
       expect(userRepositoryMock.save).toHaveBeenCalledWith(newUserModel);
     });
@@ -47,7 +47,7 @@ describe('UsersService', () => {
   describe('update a user', () => {
     it('should update  user with a known id', async () => {
       userRepositoryMock.update.mockReturnValue(replicaUser);
-      const updateUser = await service.updateUser(replicaUser);
+      const updateUser = await service.update(replicaUser);
       expect(updateUser).toMatchObject(replicaUser);
       expect(userRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
         replicaUser.id,
@@ -59,7 +59,7 @@ describe('UsersService', () => {
   describe('delete a user by id', () => {
     it('should delete a user by id', async () => {
       userRepositoryMock.delete.mockReturnValue(replicaUser);
-      await service.deleteUser(replicaUser.id);
+      await service.delete(replicaUser.id);
       expect(userRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
         replicaUser.id,
       );
@@ -69,7 +69,7 @@ describe('UsersService', () => {
   describe('get a single user by id', () => {
     it('should get a user by id', async () => {
       userRepositoryMock.findOne.mockReturnValue(replicaUser);
-      await service.findOneUser(replicaUser.id);
+      await service.findOne(replicaUser.id);
       expect(userRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
         replicaUser.id,
       );

@@ -27,9 +27,7 @@ export class TicketsResolver {
   async createTicket(
     @Args('createTicketInput') createTicketInput: CreateTicketInput,
   ) {
-    const plane = await this.planesService.findOnePlane(
-      createTicketInput.planeId,
-    );
+    const plane = await this.planesService.findOne(createTicketInput.planeId);
     if (plane.isPlaneInTransit) throw new Error('Plane in transit. Book later');
     if (plane.departureAirport != createTicketInput.userDepartureAirport)
       throw new Error(

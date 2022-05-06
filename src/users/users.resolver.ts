@@ -15,7 +15,7 @@ export class UsersResolver {
   createUser(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ): Promise<User> {
-    return this.usersService.createUser(createUserInput);
+    return this.usersService.create(createUserInput);
   }
 
   //query to get all users: it calls the get users service
@@ -30,18 +30,18 @@ export class UsersResolver {
   updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    return this.usersService.updateUser(updateUserInput);
+    return this.usersService.update(updateUserInput);
   }
 
   // a mutation to delete a user by id: it calls the delete user service
   @Mutation(() => User)
   deleteUser(@Args('id', { type: () => ID }) id: string): Promise<User> {
-    return this.usersService.deleteUser(id);
+    return this.usersService.delete(id);
   }
 
   //get user by id
   @Query(() => User, { name: 'plane' })
   findOne(@Args('id', { type: () => ID }) id: string) {
-    return this.usersService.findOneUser(id);
+    return this.usersService.findOne(id);
   }
 }

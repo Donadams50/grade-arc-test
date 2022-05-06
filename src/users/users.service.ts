@@ -12,7 +12,7 @@ export class UsersService {
   ) {}
 
   //user servive to create user
-  async createUser(createUserInput: CreateUserInput): Promise<User> {
+  async create(createUserInput: CreateUserInput): Promise<User> {
     const newUser = this.userRepository.create(createUserInput);
     return this.userRepository.save(newUser);
   }
@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   //user service to update a user by id
-  async updateUser(updateUserInput: UpdateUserInput): Promise<User> {
+  async update(updateUserInput: UpdateUserInput): Promise<User> {
     const userToUpdate = await this.userRepository.findOneOrFail(
       updateUserInput.id,
     );
@@ -30,13 +30,13 @@ export class UsersService {
   }
 
   //user service to delete a user by id
-  async deleteUser(id: string): Promise<User> {
+  async delete(id: string): Promise<User> {
     const userToDelete = await this.userRepository.findOneOrFail(id);
     return this.userRepository.remove(userToDelete);
   }
 
   //   get user by id
-  async findOneUser(id: string): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOneOrFail(id);
   }
 }

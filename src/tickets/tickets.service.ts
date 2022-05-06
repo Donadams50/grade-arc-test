@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTicketInput } from './dto/create-ticket.input';
@@ -6,6 +6,8 @@ import { UpdateTicketInput } from './dto/update-ticket.input';
 import { Ticket } from './entities/ticket.entity';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
+import { PlanesService } from '../planes/planes.service';
+import { Plane } from '../planes/entities/plane.entity';
 
 @Injectable()
 export class TicketsService {
@@ -13,6 +15,8 @@ export class TicketsService {
     @InjectRepository(Ticket)
     private readonly ticketRepository: Repository<Ticket>,
     private readonly userService: UsersService,
+    @Inject(forwardRef(() => PlanesService))
+    private readonly planesService: PlanesService,
   ) {}
 
   //    CREATE TICKET
@@ -59,8 +63,12 @@ export class TicketsService {
     });
   }
 
+  async getTicketPlane(planeId: string): Promise<Plane> {
+    return this.planesService.findOne(planeId);
+  }
+
   // this is to get the details of the user that owns a ticket
   async findTicketOwner(userId: string): Promise<User> {
-    return this.userService.findOneUser(userId);
+    return this.userService.findOne(userId);
   }
 }

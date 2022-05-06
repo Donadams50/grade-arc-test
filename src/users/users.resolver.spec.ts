@@ -1,11 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
-import {
-  replicaUser,
-  newUserModel,
-  userServiceReplica,
-} from './users.mockdata';
+import { User } from './entities/user.entity';
+
+const replicaUser: User = {
+  id: 'hhh97767-8yhhb',
+  firstName: 'Adam',
+  lastName: 'Alaka',
+  username: 'donadams',
+  address: '',
+  phoneNumber: '08144964388',
+  email: 'sumbomatic@email.com',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
+const userServiceReplica = {
+  create: jest.fn((dto) => dto),
+  findAll: jest.fn((): User[] => [replicaUser]),
+  findOne: jest.fn((id: string): User => replicaUser),
+  update: jest.fn((): User => replicaUser),
+  delete: jest.fn((id: string): User => replicaUser),
+};
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;
@@ -38,6 +54,14 @@ describe('UsersResolver', () => {
 
   describe('create a new user', () => {
     it('should create a new user', async () => {
+      const newUserModel = {
+        firstName: 'Adam',
+        lastName: 'Alaka',
+        username: 'donadams',
+        address: '',
+        phoneNumber: '08144964388',
+        email: 'sumbomatic@email.com',
+      };
       const newUser = resolver.createUser(newUserModel);
       expect(newUser).toMatchObject(newUserModel);
       expect(userServiceReplica.create).toHaveBeenCalledWith(newUserModel);

@@ -20,19 +20,19 @@ export class PlanesResolver {
   // create new plane.
   @Mutation(() => Plane)
   createPlane(@Args('createPlaneInput') createPlaneInput: CreatePlaneInput) {
-    return this.planesService.createNewPlane(createPlaneInput);
+    return this.planesService.create(createPlaneInput);
   }
 
   // get all planes
   @Query(() => [Plane])
   planes() {
-    return this.planesService.findAllPlanes();
+    return this.planesService.findAll();
   }
 
   //get plane by id
   @Query(() => Plane, { name: 'plane' })
   findOne(@Args('id', { type: () => ID }) id: string) {
-    return this.planesService.findOnePlane(id);
+    return this.planesService.findOne(id);
   }
 
   // get all tickets for a plane
@@ -50,12 +50,12 @@ export class PlanesResolver {
   //update plane by id which you can  also use to change the transit status/state of the plane. Once the plane has arrived, this can be called to change isPlaneInTransit to false
   @Mutation(() => Plane)
   updatePlane(@Args('updatePlaneInput') updatePlaneInput: UpdatePlaneInput) {
-    return this.planesService.updatePlane(updatePlaneInput);
+    return this.planesService.update(updatePlaneInput);
   }
 
   //delete plane by id
   @Mutation(() => Plane)
   deletePlane(@Args('id', { type: () => ID }) id: string) {
-    return this.planesService.deletePlane(id);
+    return this.planesService.delete(id);
   }
 }

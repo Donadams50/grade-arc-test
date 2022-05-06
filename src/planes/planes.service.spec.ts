@@ -1,28 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { PlanesService } from './planes.service';
 import { TicketsService } from '../tickets/tickets.service';
 import { Plane } from './entities/plane.entity';
 import {
   replicaPlane,
-  MockType,
   ticketServiceReplica,
-  planeModel,
+  newPlane,
+  planeRepositoryMock,
 } from './planes.mockdata';
 
 describe('PlanesService', () => {
   let service: PlanesService;
-  const planeRepositoryMock: MockType<Repository<Plane>> = {
-    create: jest.fn((fakedata) => fakedata),
-    save: jest.fn((fakedata) => fakedata),
-    find: jest.fn(),
-    findOne: jest.fn(),
-    findOneOrFail: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    remove: jest.fn(),
-  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -44,28 +33,29 @@ describe('PlanesService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  describe('create', () => {
+
+  describe('create a plane', () => {
     it('should create a new plane', async () => {
-      planeRepositoryMock.create.mockReturnValue(planeModel);
-      const newplane = await service.createNewPlane(planeModel);
-      expect(newplane).toMatchObject(planeModel);
-      expect(planeRepositoryMock.save).toHaveBeenCalledWith(planeModel);
+      planeRepositoryMock.create.mockReturnValue(newPlane);
+      const newplane = await service.create(newPlane);
+      expect(newplane).toMatchObject(newPlane);
+      expect(planeRepositoryMock.save).toHaveBeenCalledWith(newPlane);
     });
   });
 
-  describe('findAll', () => {
+  describe('find all planes', () => {
     it('should return all planes', async () => {
       planeRepositoryMock.find.mockReturnValue([replicaPlane]);
-      const planes = await service.findAllPlanes();
+      const planes = await service.findAll();
       expect(planes).toEqual([replicaPlane]);
       expect(planeRepositoryMock.find).toHaveBeenCalled();
     });
   });
 
-  describe('findOne', () => {
+  describe('find one plane', () => {
     it('should return a plane by id', async () => {
       planeRepositoryMock.findOne.mockReturnValue(replicaPlane);
-      await service.findOnePlane(replicaPlane.id);
+      await service.findOne(replicaPlane.id);
       expect(planeRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
         replicaPlane.id,
       );
@@ -74,20 +64,20 @@ describe('PlanesService', () => {
 
   describe('update', () => {
     it('should update a plane with a particular id', async () => {
-      planeRepositoryMock.update.mockReturnValue(planeModel);
-      const updatedplane = await service.updatePlane(planeModel);
-      expect(updatedplane).toMatchObject(planeModel);
+      planeRepositoryMock.update.mockReturnValue(newPlane);
+      const updatedplane = await service.update(newPlane);
+      expect(updatedplane).toMatchObject(newPlane);
       expect(planeRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
-        planeModel.id,
+        newPlane.id,
       );
-      expect(planeRepositoryMock.save).toHaveBeenCalledWith(planeModel);
+      expect(planeRepositoryMock.save).toHaveBeenCalledWith(newPlane);
     });
   });
 
   describe('delete', () => {
     it('should delete a plane', async () => {
       planeRepositoryMock.delete.mockReturnValue(replicaPlane);
-      await service.deletePlane(replicaPlane.id);
+      await service.delete(replicaPlane.id);
       expect(planeRepositoryMock.findOneOrFail).toHaveBeenCalledWith(
         replicaPlane.id,
       );

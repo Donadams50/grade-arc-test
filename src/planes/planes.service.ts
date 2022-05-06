@@ -17,18 +17,18 @@ export class PlanesService {
   ) {}
 
   // create new plane
-  async createNewPlane(createPlaneInput: CreatePlaneInput): Promise<Plane> {
+  async create(createPlaneInput: CreatePlaneInput): Promise<Plane> {
     const newPlane = this.planeRepository.create(createPlaneInput);
     return this.planeRepository.save(newPlane);
   }
 
   // returna all planes
-  async findAllPlanes(): Promise<Plane[]> {
+  async findAll(): Promise<Plane[]> {
     return this.planeRepository.find();
   }
 
   //get plane by id
-  async findOnePlane(id: string) {
+  async findOne(id: string) {
     return this.planeRepository.findOneOrFail(id);
   }
 
@@ -40,7 +40,7 @@ export class PlanesService {
   }
 
   //update plane by id
-  async updatePlane(updatePlaneInput: UpdatePlaneInput) {
+  async update(updatePlaneInput: UpdatePlaneInput) {
     const planeToUpdate = await this.planeRepository.findOneOrFail(
       updatePlaneInput.id,
     );
@@ -51,7 +51,7 @@ export class PlanesService {
   }
 
   //delete plane by id
-  async deletePlane(id: string): Promise<Plane> {
+  async delete(id: string): Promise<Plane> {
     const planeToUpdate = await this.planeRepository.findOneOrFail(id);
     return this.planeRepository.remove(planeToUpdate);
   }
