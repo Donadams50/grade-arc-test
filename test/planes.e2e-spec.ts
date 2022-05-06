@@ -6,7 +6,6 @@ import { AppModule } from '../src/app.module';
 import { getConnection } from 'typeorm';
 
 import { Plane } from '../src/planes/entities/plane.entity';
-import { Ticket } from '../src/tickets/entities/ticket.entity';
 
 const planes = [
   {
@@ -85,7 +84,7 @@ describe(' End to End Plane resolver', () => {
   const createPlaneQuery = `
   mutation createPlane($CreatePlaneInput: CreatePlaneInput!) {
     createPlane (createPlaneInput: $CreatePlaneInput) {,
-      planeName,
+      planeName.
       departureTime,
       arrivalTime,
       departureAirport,
@@ -103,8 +102,8 @@ describe(' End to End Plane resolver', () => {
           variables: {
             createPlaneInput: {
               planeName: 'Test Airlines',
-              departureTime: '2022-10-26 07:58',
-              arrivalTime: '2022-10-30 10:58',
+              departureTime: new Date('2022-10-26 07:58'),
+              arrivalTime: new Date('2022-10-30 10:58'),
               departureAirport: 'Ibadan',
               arrivalAirport: 'Lagos',
             },
