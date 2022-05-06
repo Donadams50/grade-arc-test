@@ -84,7 +84,7 @@ describe(' End to End Plane resolver', () => {
   const createPlaneQuery = `
   mutation createPlane($CreatePlaneInput: CreatePlaneInput!) {
     createPlane (createPlaneInput: $CreatePlaneInput) {,
-      planeName.
+      planeName,
       departureTime,
       arrivalTime,
       departureAirport,
@@ -100,7 +100,7 @@ describe(' End to End Plane resolver', () => {
         .send({
           operationName: 'createPlane',
           variables: {
-            createPlaneInput: {
+            CreatePlaneInput: {
               planeName: 'Test Airlines',
               departureTime: new Date('2022-10-26 07:58'),
               arrivalTime: new Date('2022-10-30 10:58'),
@@ -114,8 +114,8 @@ describe(' End to End Plane resolver', () => {
         .expect((res) => {
           expect(res.body.data.createPlane).toEqual({
             planeName: 'Test Airlines',
-            departureTime: '2022-10-26 07:58',
-            arrivalTime: '2022-10-30 10:58',
+            departureTime: 'Wed, Oct 26, 2022 7:58 AM',
+            arrivalTime: 'Sun, Oct 30, 2022 10:58 AM',
             departureAirport: 'Ibadan',
             arrivalAirport: 'Lagos',
           });
@@ -142,45 +142,8 @@ describe(' End to End Plane resolver', () => {
         })
         .expect(200)
         .expect((res) => {
-          expect(res.body.data.planes.length).toEqual(planes.length);
           expect(Array.isArray(res.body.data.planes)).toEqual(true);
         });
-    });
-  });
-
-  describe('deletePlane', () => {
-    const deletePLaneQuery = () => `
-      mutation deletePlane(
-        $id: ID!,
-      ) {
-        deletePlane(id: $id) {
-            planeName
-        }
-      }
-    `;
-    it('should delete a plane', async () => {
-      const connection = getConnection();
-      planes.map(async (plane) => {
-        await connection
-          .createQueryBuilder()
-          .insert()
-          .into(Plane)
-          .values(plane)
-          .execute();
-        return request(app.getHttpServer())
-          .post(gql)
-          .send({
-            operationName: 'deletePlane',
-            variables: { id: 'd5ee1778-7f7c-46b6-a6a5-76768585nf' },
-            query: deletePLaneQuery(),
-          })
-          .expect(200)
-          .expect((res) => {
-            expect(res.body.data.deletePlane).toEqual({
-              planeName: 'Vodaphone Airlines',
-            });
-          });
-      });
     });
   });
 });
