@@ -6,7 +6,7 @@ import {
   newTicketExampleResolver,
   ticketServiceReplica,
   mockTicket,
-} from './tickets.mockdata.test';
+} from './tickets.mockdata';
 import { planeServiceReplica } from '../planes/planes.mockdata';
 
 describe('TicketsResolver', () => {

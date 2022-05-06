@@ -10,7 +10,7 @@ import {
   planeServiceReplica,
   newTicketExampleService,
   replicaTicket,
-} from './tickets.mockdata.test';
+} from './tickets.mockdata';
 
 type MockType<T> = {
   [P in keyof T]?: jest.Mock<unknown>;
